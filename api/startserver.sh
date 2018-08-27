@@ -2,7 +2,7 @@
 
 set -e
 
-until mysqladmin ping -h shokubunka_db --silent; do
+until mysqladmin ping -h db --silent; do
   echo "Waiting for mysqld to be connectable..."
   sleep 1
 done

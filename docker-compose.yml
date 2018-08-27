@@ -7,6 +7,8 @@ services:
     #entrypoint: /go/src/api/startserver.sh
     build:
       context: ./api
+    depends_on:
+      - db
     ports:
       - 3000:3000
     volumes:
