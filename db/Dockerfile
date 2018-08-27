@@ -1,6 +1,6 @@
 FROM mysql:5.7
 
-RUN apt-get update && \
+RUN apt-get update -y -qq && \
   apt-get install locales -y && \
   rm -rf /var/lib/apt/lists/* && \
   echo "ja_JP.UTF-8 UTF-8" > /etc/locale.gen && \
