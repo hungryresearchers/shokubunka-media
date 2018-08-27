@@ -12,7 +12,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./api:/go/src:consistent
+      - ./api/app:/go/src/app:consistent
     env_file:
       - development.env
 
@@ -20,9 +20,7 @@ services:
     container_name: shokubunka_db
     build:
       context: ./db
-    ports:
-      - 3306:3306
-    volumes:
-      - ./db:/var/lib/mysql:consistent
+    # ports:
+    #   - 3306:3306
     env_file:
       - development.env
