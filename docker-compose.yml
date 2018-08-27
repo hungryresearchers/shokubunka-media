@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  api:
+    container_name: shokubunka_api
+    build:
+      context: ./api
+    ports:
+      - 3000:3000
+    volumes:
+      - ./api:/go/src:consistent
+    env_file:
+      - development.env
+
+  db:
+    container_name: shokubunka_db
+    build:
+      context: ./db
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db:/var/lib/mysql:consistent
+    env_file:
+      - development.env
