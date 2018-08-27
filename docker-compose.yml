@@ -2,7 +2,9 @@ version: "3"
 
 services:
   api:
+    tty: true
     container_name: shokubunka_api
+    #entrypoint: /go/src/api/startserver.sh
     build:
       context: ./api
     ports:
