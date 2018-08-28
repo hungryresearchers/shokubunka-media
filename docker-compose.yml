@@ -20,7 +20,5 @@ services:
     container_name: shokubunka_db
     build:
       context: ./db
-    # ports:
-    #   - 3306:3306
     env_file:
       - development.env

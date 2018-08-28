@@ -1,8 +1,8 @@
 package infrastructure
 
 import (
+	"api/interfaces/database"
 	"os"
-	"shokubunka-media/api/src/interfaces/database"
 
 	"github.com/jinzhu/gorm"
 )

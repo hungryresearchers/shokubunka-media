@@ -1,6 +1,6 @@
 package database
 
-import "shokubunka-media/api/src/domain"
+import "api/domain"
 
 type UserRepository struct {
 	SqlHandler
