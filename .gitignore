@@ -12,7 +12,7 @@
 *.out
 
 # dep
-/vendor
+*/vendor
 Gopkg.lock
 
 # Ignore environment file

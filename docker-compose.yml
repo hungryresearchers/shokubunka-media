@@ -12,7 +12,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./api/app:/go/src/app:consistent
+      - ./api:/go/src/api:consistent
     env_file:
       - development.env
 
