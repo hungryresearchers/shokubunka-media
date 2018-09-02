@@ -17,3 +17,6 @@ Gopkg.lock
 
 # Ignore environment file
 *.env
+
+# Ignore binary file
+/api/api
