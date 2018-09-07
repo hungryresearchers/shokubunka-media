@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 type SqlHandler struct {
@@ -14,7 +15,7 @@ func NewSqlHandler() *SqlHandler {
 	dbUser := os.Getenv("MYSQL_USER")
 	dbPass := os.Getenv("MYSQL_PASSWORD")
 	dbName := os.Getenv("MYSQL_DATABASE")
-	conn, err := gorm.Open("mysql", dbUser+":"+dbPass+"@tcp(hungry_db)/"+dbName+"?charset=utf8&parseTime=True&loc=Local")
+	conn, err := gorm.Open("mysql", dbUser+":"+dbPass+"@tcp(db)/"+dbName+"?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		panic(err)
 	}

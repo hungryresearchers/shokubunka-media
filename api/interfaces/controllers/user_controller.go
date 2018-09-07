@@ -21,9 +21,9 @@ func NewUserController(sqlHandler database.SqlHandler) *UserController {
 }
 
 func (controller *UserController) Create(c Context) {
-	u := domain.User{}
+	u := &domain.User{}
 	c.Bind(&u)
-	if err := controller.Usecase.Create(u); err != nil {
+	if _, err := controller.Usecase.Create(u); err != nil {
 		c.JSON(500, NewError(err))
 		return
 	}

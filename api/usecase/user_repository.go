@@ -3,5 +3,5 @@ package usecase
 import "api/domain"
 
 type UserRepository interface {
-	Create(domain.User) (domain.User, error)
+	Create(*domain.User) (*interface{}, error)
 }
