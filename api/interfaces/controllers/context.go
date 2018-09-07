@@ -1,6 +1,6 @@
 package controllers
 
-type Context {
+type Context interface {
 	Param(string) string
 	Bind(interface{}) error
 	Status(int)

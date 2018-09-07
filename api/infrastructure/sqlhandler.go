@@ -1,7 +1,6 @@
 package infrastructure
 
 import (
-	"api/interfaces/database"
 	"os"
 
 	"github.com/jinzhu/gorm"
@@ -24,7 +23,7 @@ func NewSqlHandler() *SqlHandler {
 	return sqlHandler
 }
 
-func (handler *SqlHandler) Create(entity *interface{}) (database.Result, error) {
+func (handler *SqlHandler) Create(entity *interface{}) (*interface{}, error) {
 	err := handler.Conn.Create(entity).Error
 	return entity, err
 }

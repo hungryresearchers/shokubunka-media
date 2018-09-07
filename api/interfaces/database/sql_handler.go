@@ -1,7 +1,5 @@
 package database
 
 type SqlHandler interface {
-	Create(*interface{}) (Result, error)
+	Create(*interface{}) (*interface{}, error)
 }
-
-type Result *interface{}

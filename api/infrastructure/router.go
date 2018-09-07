@@ -1,6 +1,10 @@
 package infrastructure
 
-import "github.com/gin-gonic/gin"
+import (
+	"api/interfaces/controllers"
+
+	"github.com/gin-gonic/gin"
+)
 
 var Router *gin.Engine
 

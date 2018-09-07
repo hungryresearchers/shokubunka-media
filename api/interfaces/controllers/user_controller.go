@@ -1,9 +1,9 @@
 package controllers
 
 import (
+	"api/domain"
 	"api/interfaces/database"
 	"api/usecase"
-	"shokubunka-media/api/domain"
 )
 
 type UserController struct {
