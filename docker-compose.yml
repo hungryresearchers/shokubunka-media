@@ -4,7 +4,7 @@ services:
   api:
     tty: true
     container_name: shokubunka_api
-    #entrypoint: /go/src/api/startserver.sh
+    entrypoint: /go/src/api/startserver.sh
     build:
       context: ./api
     depends_on:
