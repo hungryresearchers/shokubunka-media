@@ -1,11 +1,22 @@
 package infrastructure
 
-import "github.com/gin-gonic/gin"
+import (
+	"api/interfaces/controllers"
+
+	"github.com/gin-gonic/gin"
+)
 
 var Router *gin.Engine
 
 func init() {
 	router := gin.Default()
-	// Define route
+
+	sqlHandler := NewSqlHandler()
+	Migrate(sqlHandler.Conn)
+	// controller
+	userController := controllers.NewUserController(sqlHandler)
+
+	// Define routes
+	router.POST("/users", func(c *gin.Context) { userController.Create(c) })
 	Router = router
 }
