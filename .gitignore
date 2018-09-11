@@ -21,4 +21,4 @@ Gopkg.lock
 
 # Ignore binary file and frontend
 /api/api
-/frontend
+/front
