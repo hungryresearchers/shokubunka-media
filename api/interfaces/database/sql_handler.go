@@ -1,5 +1,7 @@
 package database
 
+import "api/domain"
+
 type SqlHandler interface {
-	Create(*interface{}) (*interface{}, error)
+	Create(*domain.User) error
 }

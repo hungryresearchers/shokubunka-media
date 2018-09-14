@@ -6,7 +6,7 @@ type UserRepository struct {
 	SqlHandler
 }
 
-func (repo *UserRepository) Create(u *domain.User) (*interface{}, error) {
-	result, err := repo.Create(u)
-	return result, err
+func (repo *UserRepository) Create(u *domain.User) error {
+	err := repo.SqlHandler.Create(u)
+	return err
 }

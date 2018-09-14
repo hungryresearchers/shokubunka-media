@@ -6,7 +6,7 @@ type UserUsecase struct {
 	UserRepository UserRepository
 }
 
-func (usecase *UserUsecase) Create(u *domain.User) (user *interface{}, err error) {
-	user, err = usecase.UserRepository.Create(u)
-	return
+func (usecase *UserUsecase) Create(u *domain.User) error {
+	err := usecase.UserRepository.Create(u)
+	return err
 }

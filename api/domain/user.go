@@ -1,10 +1,10 @@
 package domain
 
 type User struct {
-	ID                 int    `json:"id,omitempty"`
-	FirstName          string `json:"first_name"`
-	LastName           string `json:"last_name"`
-	NickName           string `json:"nick_name"`
+	ID                 int    `gorm:"primary_key;AUTO_INCREMENT" json:"id,omitempty"`
+	FirstName          string `gorm:"not null" json:"firstname"`
+	LastName           string `gorm:"not null" json:"lastname"`
+	NickName           string `gorm:"not null" json:"nickname"`
 	Email              string `gorm:"unique_index;not null" json:"email,omitempty"`
 	EncryptedPassword  string `gorm:"not null" json:"-"`
 	InvitationToken    string `gorm:"unique_index;not null" json:"invitation_token,omitempty"`
