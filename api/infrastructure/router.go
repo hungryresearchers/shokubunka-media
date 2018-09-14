@@ -16,7 +16,11 @@ func init() {
 	// controller
 	userController := controllers.NewUserController(sqlHandler)
 
+	// Grouping route
+	api := router.Group("/api")
+	v1 := api.Group("/v1")
+
 	// Define routes
-	router.POST("/users", func(c *gin.Context) { userController.Create(c) })
+	v1.POST("/users", func(c *gin.Context) { userController.Create(c) })
 	Router = router
 }
