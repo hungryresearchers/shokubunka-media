@@ -9,7 +9,7 @@ type UserUsecase struct {
 }
 
 func (usecase *UserUsecase) Create(u *domain.User) error {
-	u.EncryptPassword()
+	u.Initialize()
 	err := usecase.UserRepository.Create(u)
 	return err
 }
