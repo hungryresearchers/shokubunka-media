@@ -11,9 +11,9 @@
   version = "1.3.0"
 
 [[constraint]]
-  name = "github.com/qor/qor"
-  version = "1.0.0"
-
-[[constraint]]
+  branch = "master"
   name = "github.com/qor/admin"
-  version = "1.0.0"
+
+[[override]]
+  name = "github.com/qor/roles"
+  branch = "master"
