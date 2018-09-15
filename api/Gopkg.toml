@@ -17,3 +17,7 @@
 [[override]]
   name = "github.com/qor/roles"
   branch = "master"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/qor/qor"
