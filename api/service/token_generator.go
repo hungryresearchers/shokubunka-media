@@ -3,16 +3,15 @@ package service
 import (
 	"crypto/rand"
 	"encoding/base64"
-	"log"
 )
 
-func GenerateToken() string {
+func GenerateToken() (string, error) {
 	b, err := GenerateRandomBytes()
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 	token := base64.URLEncoding.EncodeToString(b)
-	return token
+	return token, nil
 }
 
 func GenerateRandomBytes() ([]byte, error) {

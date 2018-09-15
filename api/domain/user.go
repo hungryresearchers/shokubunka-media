@@ -17,7 +17,7 @@ type User struct {
 }
 
 func (u *User) Initialize() {
-	u.InvitationToken = service.GenerateToken()
+	u.InvitationToken, _ = service.GenerateToken()
 	u.EncryptPassword()
 }
 
