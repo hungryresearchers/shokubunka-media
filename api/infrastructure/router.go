@@ -19,8 +19,12 @@ func init() {
 	Migrate(sqlHandler.Conn)
 
 	// Admin config & routing
-	Admin := admin.New(&admin.AdminConfig{DB: sqlHandler.Conn})
-	Admin.AddResource(&domain.User{})
+	Admin := admin.New(&admin.AdminConfig{
+		DB:       sqlHandler.Conn,
+		SiteName: "Hungry Researchers",
+	})
+	user := Admin.AddResource(&domain.User{})
+	defineUserMetaInfo(user)
 	Admin.MountTo("/admin", mux)
 	router.Any("/admin/*resources", gin.WrapH(mux))
 
