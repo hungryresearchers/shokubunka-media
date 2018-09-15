@@ -29,5 +29,5 @@ func (controller *UserController) Create(c Context) {
 		c.JSON(400, NewError(err))
 		return
 	}
-	c.Status(201)
+	c.JSON(201, u)
 }
