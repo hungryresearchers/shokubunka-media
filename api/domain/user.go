@@ -2,18 +2,22 @@ package domain
 
 import (
 	"api/service"
+	"time"
 )
 
 type User struct {
-	ID                 int    `gorm:"primary_key;AUTO_INCREMENT" sql:"not null" json:"-"`
+	ID                 int    `json:"user_id" gorm:"primary_key;AUTO_INCREMENT" sql:"not null" json:"-"`
 	FirstName          string `json:"firstname"`
 	LastName           string `json:"lastname"`
 	NickName           string `json:"nickname"`
-	Email              string `sql:"unique_index;not null" json:"email,omitempty"`
-	EncryptedPassword  string `sql:"not null" json:"password,omitempty"`
+	Email              string `sql:"unique_index;not null" json:"email,omitempty" binding:"exists,email"`
+	EncryptedPassword  string `sql:"not null" json:"password,omitempty" binding:"exists,min=8,max=255"`
 	InvitationToken    string `sql:"unique_index;not null" json:"invitation_token,omitempty"`
 	ResetPasswordToken string `json:"reset_password_token,omitempty"`
 	Role               *int   `sql:"default:0" json:"role,omitempty"` // role 0: user, 1: author, 2: admin
+	Articles           []Article
+	CreatedAt          time.Time
+	UpdatedAt          time.Time
 }
 
 func (u *User) Initialize() {
