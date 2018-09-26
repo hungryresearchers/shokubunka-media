@@ -44,5 +44,9 @@ func init() {
 	})
 
 	// Articles
+	articles := v1.Group("/articles")
+	articles.POST("", func(c *gin.Context) {
+		// b := binding.Default(c.Request.Method, c.ContentType())
+	})
 	Router = router
 }
