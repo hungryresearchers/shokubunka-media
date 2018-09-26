@@ -1,19 +1,19 @@
 version: "3"
 
 services:
-  front:
-    tty: true
-    container_name: shokubunka_front
-    build:
-      context: ./front
-    entrypoint: /app/startserver.sh
-    volumes:
-      - ./front:/app:consistent
-    depends_on:
-      - api
-    ports:
-      - 8080:8080
-    env_file: development.env
+  # front:
+  #   tty: true
+  #   container_name: shokubunka_front
+  #   build:
+  #     context: ./front
+  #   entrypoint: /app/startserver.sh
+  #   volumes:
+  #     - ./front:/app:consistent
+  #   depends_on:
+  #     - api
+  #   ports:
+  #     - 8080:8080
+  #   env_file: development.env
 
   api:
     tty: true

@@ -36,10 +36,13 @@ func init() {
 	api := router.Group("/api")
 	v1 := api.Group("/v1")
 
-	// Define routes
-	v1.POST("/users", func(c *gin.Context) {
+	// Users
+	users := v1.Group("/users")
+	users.POST("", func(c *gin.Context) {
 		b := binding.Default(c.Request.Method, c.ContentType())
 		userController.Create(c, b)
 	})
+
+	// Articles
 	Router = router
 }
