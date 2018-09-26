@@ -4,6 +4,8 @@ import (
 	"api/domain"
 	"api/interfaces/database"
 	"api/usecase"
+
+	"github.com/gin-gonic/gin/binding"
 )
 
 type UserController struct {
@@ -20,9 +22,9 @@ func NewUserController(sqlHandler database.SqlHandler) *UserController {
 	}
 }
 
-func (controller *UserController) Create(c Context) {
+func (controller *UserController) Create(c Context, b binding.Binding) {
 	u := &domain.User{}
-	if err := c.Bind(u); err != nil {
+	if err := c.ShouldBindWith(u, b); err != nil {
 		c.JSON(400, NewError(err))
 	}
 	if err := controller.Usecase.Create(u); err != nil {

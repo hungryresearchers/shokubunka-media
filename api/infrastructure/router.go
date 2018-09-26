@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"github.com/qor/admin"
 )
 
@@ -36,6 +37,9 @@ func init() {
 	v1 := api.Group("/v1")
 
 	// Define routes
-	v1.POST("/users", func(c *gin.Context) { userController.Create(c) })
+	v1.POST("/users", func(c *gin.Context) {
+		b := binding.Default(c.Request.Method, c.ContentType())
+		userController.Create(c, b)
+	})
 	Router = router
 }
