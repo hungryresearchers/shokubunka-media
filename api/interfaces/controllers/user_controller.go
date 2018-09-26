@@ -26,6 +26,7 @@ func (controller *UserController) Create(c Context, b binding.Binding) {
 	u := &domain.User{}
 	if err := c.ShouldBindWith(u, b); err != nil {
 		c.JSON(400, NewError(err))
+		return
 	}
 	if err := controller.Usecase.Create(u); err != nil {
 		c.JSON(400, NewError(err))
