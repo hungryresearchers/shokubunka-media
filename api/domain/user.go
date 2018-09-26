@@ -16,8 +16,8 @@ type User struct {
 	ResetPasswordToken string `json:"reset_password_token,omitempty"`
 	Role               *int   `sql:"default:0" json:"role,omitempty"` // role 0: user, 1: author, 2: admin
 	Articles           []Article
-	CreatedAt          time.Time
-	UpdatedAt          time.Time
+	CreatedAt          time.Time `json:"created_at" gorm:"type:timestamp"`
+	UpdatedAt          time.Time `json:"updated_at" gorm:"type:timestamp"`
 }
 
 func (u *User) BeforeSave() (err error) {

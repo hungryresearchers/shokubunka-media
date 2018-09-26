@@ -13,6 +13,6 @@ type Shop struct {
 	ClosedAt      time.Time  `json:"closed_at"`
 	SnsURL        string     `json:"sns_url"`
 	Articles      []*Article `gorm:"many2many:"article_shops;"`
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
+	CreatedAt     time.Time  `json:"created_at" gorm:"type:timestamp"`
+	UpdatedAt     time.Time  `json:"updated_at" gorm:"type:timestamp"`
 }
