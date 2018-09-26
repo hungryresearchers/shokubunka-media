@@ -20,8 +20,8 @@ func defineUserMetaInfo(user *admin.Resource) {
 		Setter: encryptPassword,
 	})
 	user.Action(&admin.Action{
-		Name:    "Invite",
-		Handler: generateInvitationToken,
+		Name:    "ResetPassword",
+		Handler: generateResetPasswordToken,
 		Visible: tokenExist,
 		Modes:   []string{"edit", "show", "collection", "menu_item"},
 	})
@@ -29,19 +29,19 @@ func defineUserMetaInfo(user *admin.Resource) {
 
 func tokenExist(record interface{}, context *admin.Context) bool {
 	user := record.(*domain.User)
-	if user.InvitationToken == "" {
+	if user.ResetPasswordToken == "" {
 		return true
 	}
 	return false
 }
 
-func generateInvitationToken(argument *admin.ActionArgument) error {
+func generateResetPasswordToken(argument *admin.ActionArgument) error {
 	for _, record := range argument.FindSelectedRecords() {
 		token, err := service.GenerateToken()
 		if err != nil {
 			log.Fatal(err)
 		}
-		argument.Context.DB.Model(record.(*domain.User)).Update("InvitationToken", token)
+		argument.Context.DB.Model(record.(*domain.User)).Update("ResetPasswordToken", token)
 	}
 	return nil
 }
