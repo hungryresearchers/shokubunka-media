@@ -10,14 +10,20 @@ type User struct {
 	FirstName          string `json:"firstname"`
 	LastName           string `json:"lastname"`
 	NickName           string `json:"nickname"`
-	Email              string `sql:"unique_index;not null" json:"email,omitempty" binding:"exists,email"`
-	EncryptedPassword  string `sql:"not null" json:"password,omitempty" binding:"exists,min=8,max=255"`
+	Email              string `sql:"unique_index;not null" json:"email,omitempty" binding:"exists,email" valid:"email"`
+	EncryptedPassword  string `sql:"not null" json:"password,omitempty" valid:length(8:255)`
 	InvitationToken    string `sql:"unique_index;not null" json:"invitation_token,omitempty"`
 	ResetPasswordToken string `json:"reset_password_token,omitempty"`
 	Role               *int   `sql:"default:0" json:"role,omitempty"` // role 0: user, 1: author, 2: admin
 	Articles           []Article
 	CreatedAt          time.Time
 	UpdatedAt          time.Time
+}
+
+func (u *User) BeforeSave() (err error) {
+	token, err := service.GenerateToken()
+	u.InvitationToken = token
+	return
 }
 
 func (u *User) Initialize() {
