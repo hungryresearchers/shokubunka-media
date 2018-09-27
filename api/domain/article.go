@@ -7,9 +7,9 @@ type Article struct {
 	Title        string    `json:"title" sql:"not null"`
 	Body         string    `json:"body" sql:"not null;type:text"`
 	ThumbnailURL string    `json:"thumbnail_url" sql:"not null"`
-	UserID       int       `json:"-"`
-	Tags         []*Tag    `json:"tags" gorm:"many2many:article_tags;"`
-	Shops        []*Shop   `json:"shops" gorm:"many2many:article_shops;"`
-	CreatedAt    time.Time `json:"created_at,omitempty" gorm:"type:timestamp"`
-	UpdatedAt    time.Time `json:"updated_at,omitempty" gorm:"type:timestamp"`
+	UserID       int       `json:"-" sql:"not null"`
+	Tags         []*Tag    `json:"tags,omitempty" gorm:"many2many:article_tags;"`
+	Shops        []*Shop   `json:"shops,omitempty" gorm:"many2many:article_shops;"`
+	CreatedAt    time.Time `json:"created_at,omitempty" gorm:"type:timestamp" sql:"DEFAULT:current_timestamp"`
+	UpdatedAt    time.Time `json:"updated_at,omitempty" gorm:"type:timestamp" sql:"DEFAULT:current_timestamp"`
 }
