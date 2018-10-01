@@ -40,6 +40,7 @@ func generateResetPasswordToken(argument *admin.ActionArgument) error {
 		token, err := service.GenerateToken()
 		if err != nil {
 			log.Fatal(err)
+			return err
 		}
 		argument.Context.DB.Model(record.(*domain.User)).Update("ResetPasswordToken", token)
 	}

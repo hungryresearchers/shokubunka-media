@@ -27,6 +27,7 @@ func init() {
 		SiteName: "Hungry Researchers",
 	})
 	user := Admin.AddResource(&domain.User{})
+	AddResourceValidator(user)
 	defineUserMetaInfo(user)
 	Admin.MountTo("/admin", mux)
 	router.Any("/admin/*resources", gin.WrapH(mux))
