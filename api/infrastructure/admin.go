@@ -13,8 +13,10 @@ import (
 
 func defineUserMetaInfo(user *admin.Resource) {
 	user.NewAttrs("FirstName", "LastName", "NickName", "Email", "Role", "Password")
-	user.EditAttrs("FirstName", "LastName", "NickName", "Email", "InvitationToken", "Role", "Password")
-	user.Meta(&admin.Meta{Name: "Password",
+	user.EditAttrs("FirstName", "LastName", "NickName", "Email", "InvitationToken", "Role")
+	user.IndexAttrs("FirstName", "LastName", "NickName", "Email", "Role")
+	user.Meta(&admin.Meta{
+		Name:   "Password",
 		Type:   "password",
 		Valuer: func(interface{}, *qor.Context) interface{} { return "" },
 		Setter: encryptPassword,
