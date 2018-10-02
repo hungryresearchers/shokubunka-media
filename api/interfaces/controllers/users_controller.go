@@ -3,6 +3,7 @@ package controllers
 import (
 	"api/domain"
 	"api/interfaces/database"
+	"api/service"
 	"api/usecase"
 
 	"github.com/gin-gonic/gin/binding"
@@ -33,4 +34,19 @@ func (controller *UserController) Create(c Context, b binding.Binding) {
 		return
 	}
 	c.JSON(201, u)
+}
+
+func (controller *UserController) SignIn(c Context, b binding.Binding) {
+	u := &domain.User{}
+	if err := c.ShouldBindWith(u, b); err != nil {
+		c.JSON(400, NewError(err))
+		return
+	}
+	u.EncryptPassword()
+	if err := controller.Usecase.UserRepository.Find(u); err != nil {
+		c.JSON(400, NewError(err))
+		return
+	}
+	service.SessionSet(c, u.ID)
+	c.JSON(200, u)
 }

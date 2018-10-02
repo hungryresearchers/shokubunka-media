@@ -28,3 +28,8 @@ func (handler *SqlHandler) Create(domain interface{}) error {
 	err := handler.Conn.Create(domain).Error
 	return err
 }
+
+func (handler *SqlHandler) Find(domain interface{}) error {
+	err := handler.Conn.Where(domain).First(domain).Error
+	return err
+}
