@@ -21,3 +21,7 @@
 [[constraint]]
   branch = "master"
   name = "github.com/qor/qor"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/badoux/checkmail"
