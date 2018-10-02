@@ -25,3 +25,11 @@
 [[constraint]]
   branch = "master"
   name = "github.com/badoux/checkmail"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/gin-contrib/sessions"
+
+[[override]]
+  branch = "master"
+  name = "github.com/boj/redistore"
