@@ -23,12 +23,19 @@ services:
       context: ./api
     depends_on:
       - db
+      - redis
     ports:
       - 3000:3000
     volumes:
       - ./api:/go/src/api:consistent
     env_file:
       - development.env
+
+  redis:
+    container_name: shokubunka_redis
+    image: redis:4.0
+    ports:
+      - "6379:6379"
 
   db:
     container_name: shokubunka_db
