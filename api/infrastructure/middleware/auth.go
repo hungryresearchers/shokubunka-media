@@ -13,7 +13,11 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		userID := session.Get("userID")
-		setCurrentUser(c, userID.(int))
+		id, ok := userID.(int)
+		if !ok {
+			return
+		}
+		setCurrentUser(c, id)
 	}
 }
 

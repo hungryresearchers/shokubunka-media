@@ -12,8 +12,7 @@ func ResourcePermissionMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		currentUser, ok := c.MustGet("current_user").(domain.User)
 		if !ok {
-			df := 0
-			currentUser = domain.User{Role: &df}
+			currentUser = domain.User{Role: 0}
 		}
 		role := changeRole(currentUser.Role)
 		permission := ResourcePermission()
@@ -82,8 +81,8 @@ func UserPermissionMiddleware() gin.HandlerFunc {
 	}
 }
 
-func changeRole(role *int) string {
-	switch *role {
+func changeRole(role int) string {
+	switch role {
 	case 1:
 		return "writer"
 	case 2:
