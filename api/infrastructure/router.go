@@ -2,6 +2,7 @@ package infrastructure
 
 import (
 	"api/domain"
+	"api/infrastructure/middleware"
 	"api/interfaces/controllers"
 	"net/http"
 
@@ -42,20 +43,23 @@ func init() {
 	api := router.Group("/api")
 	v1 := api.Group("/v1")
 
+	v1.Use(middleware.AuthMiddleware())
 	// Users
 	users := v1.Group("/users")
 	userController := controllers.NewUserController(sqlHandler)
-	users.POST("", func(c *gin.Context) {
-		b := binding.Default(c.Request.Method, c.ContentType())
-		userController.Create(c, b)
-	})
 	users.POST("/login", func(c *gin.Context) {
 		b := binding.Default(c.Request.Method, c.ContentType())
 		userController.SignIn(c, b)
 	})
+	users.Use(middleware.UserPermissionMiddleware())
+	users.POST("", func(c *gin.Context) {
+		b := binding.Default(c.Request.Method, c.ContentType())
+		userController.Create(c, b)
+	})
 
 	// Articles
 	articles := v1.Group("/articles")
+	articles.Use(middleware.ResourcePermissionMiddleware())
 	articleController := controllers.NewArticleController(sqlHandler)
 	articles.POST("", func(c *gin.Context) {
 		b := binding.Default(c.Request.Method, c.ContentType())

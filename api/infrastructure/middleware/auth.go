@@ -1,26 +1,23 @@
 package middleware
 
 import (
-	"shokubunka-media/api/domain"
+	"api/domain"
+	"os"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 )
 
-func AuthMiddleware() gin.HandleFunc {
+func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session := sessions.Default()
+		session := sessions.Default(c)
 		userID := session.Get("userID")
-		if userID == nil || userID == 0 {
-			c.JSON(http.StatusUnauthorized, nil)
-			c.Abort()
-			return
-		}
-		setCurrentUser(c, userID)
+		setCurrentUser(c, userID.(int))
 	}
 }
 
-func setCurrentUser(c *gin.Context, userID) {
+func setCurrentUser(c *gin.Context, userID int) {
 	var currentUser domain.User
 	db := DB()
 	db.First(&currentUser, userID)
