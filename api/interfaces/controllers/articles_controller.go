@@ -23,7 +23,8 @@ func NewArticleController(sqlHandler database.SqlHandler) *ArticleController {
 }
 
 func (controller *ArticleController) Create(c Context, b binding.Binding) {
-	article := &domain.Article{}
+	user := CurrentUser(c)
+	article := &domain.Article{UserID: user.ID}
 	if err := c.ShouldBindWith(article, b); err != nil {
 		c.JSON(400, NewError(err))
 		return
