@@ -18,6 +18,7 @@ Gopkg.lock
 
 # Ignore environment file
 *.env
+secrets.json
 
 # Ignore binary file and frontend
 /api/api
