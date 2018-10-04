@@ -47,7 +47,7 @@ func init() {
 	// Users
 	users := v1.Group("/users")
 	userController := controllers.NewUserController(sqlHandler)
-	users.GET("/login", func(c *gin.Context) {
+	users.POST("/login", func(c *gin.Context) {
 		b := binding.Default(c.Request.Method, c.ContentType())
 		userController.SignIn(c, b)
 	})
