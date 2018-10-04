@@ -21,12 +21,48 @@ func defineUserMetaInfo(user *admin.Resource) {
 		Valuer: func(interface{}, *qor.Context) interface{} { return "" },
 		Setter: encryptPassword,
 	})
+	user.Meta(&admin.Meta{
+		Name:   "Role",
+		Type:   "role",
+		Config: &admin.SelectOneConfig{Collection: []string{"user", "writer", "admin"}},
+		Valuer: changeRoleStr,
+		Setter: ConvertRole,
+	})
 	user.Action(&admin.Action{
 		Name:    "ResetPassword",
 		Handler: generateResetPasswordToken,
 		Visible: tokenExist,
 		Modes:   []string{"edit", "show", "collection", "menu_item"},
 	})
+}
+
+func changeRoleStr(record interface{}, context *qor.Context) interface{} {
+	user := record.(*domain.User)
+	switch user.Role {
+	case 1:
+		return "writer"
+	case 2:
+		return "admin"
+	default:
+		return "user"
+	}
+}
+
+func ConvertRole(record interface{}, metaValue *resource.MetaValue, context *qor.Context) {
+	var roleNumber int
+	if role := utils.ToString(metaValue.Value); role != "" {
+		switch role {
+		case "writer":
+			roleNumber = 1
+		case "admin":
+			roleNumber = 2
+		default:
+			roleNumber = 0
+		}
+		record.(*domain.User).Role = roleNumber
+	} else {
+		record.(*domain.User).Role = 0
+	}
 }
 
 func tokenExist(record interface{}, context *admin.Context) bool {

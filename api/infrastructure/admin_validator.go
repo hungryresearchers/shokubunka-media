@@ -58,8 +58,5 @@ func isValidEmail(email string) bool {
 	if err := checkmail.ValidateFormat(email); err != nil {
 		return false
 	}
-	if err := checkmail.ValidateHost(email); err != nil {
-		return false
-	}
 	return true
 }
