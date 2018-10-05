@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"api/domain"
+	"mime/multipart"
 
 	"github.com/gin-gonic/gin/binding"
 )
@@ -9,6 +10,7 @@ import (
 type Context interface {
 	Param(string) string
 	ShouldBindWith(interface{}, binding.Binding) error
+	FormFile(string) (*multipart.FileHeader, error)
 	Status(int)
 	MustGet(string) interface{}
 	JSON(int, interface{})

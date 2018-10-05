@@ -2,8 +2,11 @@ package infrastructure
 
 import (
 	"api/domain"
+	"api/infrastructure/config"
 	"api/infrastructure/middleware"
 	"api/interfaces/controllers"
+	"context"
+	"log"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -20,9 +23,15 @@ func init() {
 	router := gin.Default()
 	mux := http.NewServeMux()
 
+	//
 	sqlHandler := NewSqlHandler()
 	Migrate(sqlHandler.Conn)
 	validations.RegisterCallbacks(sqlHandler.Conn)
+	ctx := context.Background()
+	blob, err := config.Setup(ctx, "gcp")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Admin config & routing
 	Admin := admin.New(&admin.AdminConfig{
@@ -44,6 +53,15 @@ func init() {
 	v1 := api.Group("/v1")
 
 	v1.Use(middleware.AuthMiddleware())
+
+	// ImageUploader
+	images := v1.Group("/images")
+	imageController := controllers.NewImageController()
+	// images.Use(middleware.ResourcePermissionMiddleware())
+	images.POST("/upload", func(c *gin.Context) {
+		imageController.Upload(c, blob, ctx)
+	})
+
 	// Users
 	users := v1.Group("/users")
 	userController := controllers.NewUserController(sqlHandler)
