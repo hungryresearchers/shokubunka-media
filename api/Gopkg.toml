@@ -33,3 +33,7 @@
 [[override]]
   branch = "master"
   name = "github.com/boj/redistore"
+
+[[constraint]]
+  name = "github.com/google/go-cloud"
+  version = "0.3.0"
