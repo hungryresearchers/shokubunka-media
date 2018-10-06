@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+	"os"
 
 	"github.com/google/go-cloud/blob"
 	"github.com/google/go-cloud/blob/gcsblob"
@@ -11,9 +12,9 @@ import (
 func Setup(ctx context.Context, service string) (*blob.Bucket, error) {
 	switch service {
 	case "gcp":
-		return SetupGCP(ctx, "shokubunka-media-image")
+		return SetupGCP(ctx, os.Getenv("BUCKET_NAME"))
 	default:
-		return SetupGCP(ctx, "shokubunka-media-image")
+		return SetupGCP(ctx, os.Getenv("BUCKET_NAME"))
 	}
 }
 

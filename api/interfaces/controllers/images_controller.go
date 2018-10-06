@@ -1,12 +1,13 @@
 package controllers
 
 import (
-	"api/domain"
+	"api/interfaces/controllers/serializer"
 	"api/usecase"
 	"bytes"
 	"context"
 	"io"
 	"log"
+	"os"
 
 	"github.com/google/go-cloud/blob"
 )
@@ -23,6 +24,7 @@ func NewImageController() *ImageController {
 
 func (controller *ImageController) Upload(c Context, blob *blob.Bucket, ctx context.Context) {
 	fileHeader, _ := c.FormFile("file")
+	filename := fileHeader.Filename
 	image, _ := fileHeader.Open()
 	defer image.Close()
 	buf := bytes.NewBuffer(nil)
@@ -36,8 +38,9 @@ func (controller *ImageController) Upload(c Context, blob *blob.Bucket, ctx cont
 		c.JSON(400, NewError(err))
 		return
 	}
+	url := "https://storage.googleapis.com/" + os.Getenv("BUCKET_NAME") + "/" + filename
 	if err := w.Close(); err != nil {
 		log.Fatal(err)
 	}
-	c.JSON(200, &domain.Image{})
+	c.JSON(200, serializer.Image{URL: url})
 }
