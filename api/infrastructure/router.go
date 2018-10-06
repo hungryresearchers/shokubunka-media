@@ -57,7 +57,7 @@ func init() {
 	// ImageUploader
 	images := v1.Group("/images")
 	imageController := controllers.NewImageController()
-	// images.Use(middleware.ResourcePermissionMiddleware())
+	images.Use(middleware.ResourcePermissionMiddleware())
 	images.POST("/upload", func(c *gin.Context) {
 		imageController.Upload(c, blob, ctx)
 	})

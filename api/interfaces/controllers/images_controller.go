@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"api/interfaces/controllers/serializer"
+	"api/service"
 	"api/usecase"
 	"bytes"
 	"context"
@@ -24,12 +25,12 @@ func NewImageController() *ImageController {
 
 func (controller *ImageController) Upload(c Context, blob *blob.Bucket, ctx context.Context) {
 	fileHeader, _ := c.FormFile("file")
-	filename := fileHeader.Filename
+	filename := service.ChangeUniqueName(fileHeader.Filename)
 	image, _ := fileHeader.Open()
 	defer image.Close()
 	buf := bytes.NewBuffer(nil)
 	io.Copy(buf, image)
-	w, err := blob.NewWriter(ctx, fileHeader.Filename, nil)
+	w, err := blob.NewWriter(ctx, filename, nil)
 	if err != nil {
 		c.JSON(400, NewError(err))
 		return
