@@ -32,14 +32,20 @@ services:
       - development.env
 
   redis:
+    restart: always
     container_name: shokubunka_redis
     image: redis:4.0
+    # volumes: to parmanet
+    #   - /my/own/datadir:/data
     ports:
       - "6379:6379"
 
   db:
+    restart: always
     container_name: shokubunka_db
     build:
       context: ./db
+    # volumes: to parmanent
+    #   - /my/own/datadir:/var/lib/mysql
     env_file:
       - development.env
