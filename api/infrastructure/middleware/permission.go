@@ -49,11 +49,12 @@ func ResourcePermissionMiddleware() gin.HandlerFunc {
 
 func UserPermissionMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		currentUser, ok := c.MustGet("current_user").(domain.User)
+		user, ok := c.Get("current_user")
 		if !ok {
 			c.JSON(401, Error{Message: "Authorization error: You must login."})
 			c.Abort()
 		}
+		currentUser := user.(domain.User)
 		role := changeRole(currentUser.Role)
 		permission := UserPermission()
 		var err error

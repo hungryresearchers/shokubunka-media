@@ -71,6 +71,9 @@ func init() {
 		userController.SignIn(c, b)
 	})
 	users.Use(middleware.UserPermissionMiddleware())
+	users.GET("/logout", func(c *gin.Context) {
+		userController.SignOut(c)
+	})
 	users.POST("", func(c *gin.Context) {
 		b := binding.Default(c.Request.Method, c.ContentType())
 		userController.Create(c, b)

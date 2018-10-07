@@ -11,6 +11,7 @@ type Context interface {
 	Param(string) string
 	ShouldBindWith(interface{}, binding.Binding) error
 	FormFile(string) (*multipart.FileHeader, error)
+	AbortWithStatus(int)
 	Status(int)
 	MustGet(string) interface{}
 	JSON(int, interface{})

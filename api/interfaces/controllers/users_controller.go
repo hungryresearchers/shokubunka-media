@@ -52,3 +52,8 @@ func (controller *UserController) SignIn(c Context, b binding.Binding) {
 	service.SessionSet(c, u.ID)
 	c.JSON(200, serializer.UserResponse{FirstName: u.FirstName, LastName: u.LastName, NickName: u.NickName, CreatedAt: u.CreatedAt})
 }
+
+func (controller *UserController) SignOut(c Context) {
+	service.SessionClear(c)
+	c.AbortWithStatus(204)
+}
