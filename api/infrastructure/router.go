@@ -87,5 +87,8 @@ func init() {
 	articles.GET("", func(c *gin.Context) {
 		articleController.Index(c)
 	})
+	articles.GET("/:id", func(c *gin.Context) {
+		articleController.Show(c)
+	})
 	Router = router
 }

@@ -5,6 +5,7 @@ import (
 	"api/interfaces/controllers/serializer"
 	"api/interfaces/database"
 	"api/usecase"
+	"strconv"
 
 	"github.com/gin-gonic/gin/binding"
 	"github.com/jinzhu/gorm"
@@ -26,16 +27,26 @@ func NewArticleController(sqlhandler *gorm.DB) *ArticleController {
 
 func (controller *ArticleController) Create(c Context, b binding.Binding) {
 	user := CurrentUser(c)
-	article := &domain.Article{UserID: user.ID}
-	if err := c.ShouldBindWith(article, b); err != nil {
+	article := domain.Article{UserID: user.ID}
+	if err := c.ShouldBindWith(&article, b); err != nil {
 		c.JSON(400, NewError(err))
 		return
 	}
-	if err := controller.Usecase.Create(article); err != nil {
+	if err := controller.Usecase.Create(&article); err != nil {
 		c.JSON(400, NewError(err))
 		return
 	}
 	c.JSON(201, article)
+}
+
+func (controller *ArticleController) Show(c Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	article := domain.Article{ID: id}
+	if err := controller.Usecase.ArticleRepository.Find(&article); err != nil {
+		c.JSON(400, err)
+		return
+	}
+	c.JSON(200, article)
 }
 
 func (controller *ArticleController) Index(c Context) {
