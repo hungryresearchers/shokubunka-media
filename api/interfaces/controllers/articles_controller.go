@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"api/domain"
+	"api/interfaces/controllers/serializer"
 	"api/interfaces/database"
 	"api/usecase"
 
@@ -35,4 +36,13 @@ func (controller *ArticleController) Create(c Context, b binding.Binding) {
 		return
 	}
 	c.JSON(201, article)
+}
+
+func (controller *ArticleController) Index(c Context) {
+	articles := make([]domain.Article, 100)
+	if err := controller.Usecase.FetchAll(&articles); err != nil {
+		c.JSON(400, NewError(err))
+		return
+	}
+	c.JSON(200, serializer.AllArticle{Articles: articles})
 }

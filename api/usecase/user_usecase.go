@@ -13,3 +13,8 @@ func (usecase *UserUsecase) Create(u *domain.User) error {
 	err := usecase.UserRepository.Create(u)
 	return err
 }
+
+func (usecase *UserUsecase) Find(u *domain.User) error {
+	err := usecase.UserRepository.Find(u)
+	return err
+}

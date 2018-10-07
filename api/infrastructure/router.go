@@ -84,5 +84,8 @@ func init() {
 		b := binding.Default(c.Request.Method, c.ContentType())
 		articleController.Create(c, b)
 	})
+	articles.GET("", func(c *gin.Context) {
+		articleController.Index(c)
+	})
 	Router = router
 }

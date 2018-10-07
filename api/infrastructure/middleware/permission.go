@@ -10,8 +10,11 @@ import (
 
 func ResourcePermissionMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		currentUser, ok := c.MustGet("current_user").(domain.User)
-		if !ok {
+		var currentUser domain.User
+		user, ok := c.Get("current_user")
+		if ok {
+			currentUser = user.(domain.User)
+		} else {
 			currentUser = domain.User{Role: 0}
 		}
 		role := changeRole(currentUser.Role)
