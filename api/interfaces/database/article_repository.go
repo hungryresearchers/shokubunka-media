@@ -1,12 +1,16 @@
 package database
 
-import "api/domain"
+import (
+	"api/domain"
+
+	"github.com/jinzhu/gorm"
+)
 
 type ArticleRepository struct {
-	SqlHandler
+	DB *gorm.DB
 }
 
 func (repo *ArticleRepository) Create(article *domain.Article) error {
-	err := repo.SqlHandler.Create(article)
+	err := repo.DB.Create(article).Error
 	return err
 }

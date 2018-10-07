@@ -5,6 +5,7 @@ import (
 	"api/infrastructure/config"
 	"api/infrastructure/middleware"
 	"api/interfaces/controllers"
+	"api/interfaces/database"
 	"context"
 	"log"
 	"net/http"
@@ -22,11 +23,11 @@ var Router *gin.Engine
 func init() {
 	router := gin.Default()
 	mux := http.NewServeMux()
+	sqlhandler := database.NewSQLHandler()
 
 	//
-	sqlHandler := NewSqlHandler()
-	Migrate(sqlHandler.Conn)
-	validations.RegisterCallbacks(sqlHandler.Conn)
+	Migrate(sqlhandler)
+	validations.RegisterCallbacks(sqlhandler)
 	ctx := context.Background()
 	blob, err := config.Setup(ctx, "gcp")
 	if err != nil {
@@ -35,7 +36,7 @@ func init() {
 
 	// Admin config & routing
 	Admin := admin.New(&admin.AdminConfig{
-		DB:       sqlHandler.Conn,
+		DB:       sqlhandler,
 		SiteName: "Hungry Researchers",
 	})
 	user := Admin.AddResource(&domain.User{})
@@ -64,7 +65,7 @@ func init() {
 
 	// Users
 	users := v1.Group("/users")
-	userController := controllers.NewUserController(sqlHandler)
+	userController := controllers.NewUserController(sqlhandler)
 	users.POST("/login", func(c *gin.Context) {
 		b := binding.Default(c.Request.Method, c.ContentType())
 		userController.SignIn(c, b)
@@ -78,7 +79,7 @@ func init() {
 	// Articles
 	articles := v1.Group("/articles")
 	articles.Use(middleware.ResourcePermissionMiddleware())
-	articleController := controllers.NewArticleController(sqlHandler)
+	articleController := controllers.NewArticleController(sqlhandler)
 	articles.POST("", func(c *gin.Context) {
 		b := binding.Default(c.Request.Method, c.ContentType())
 		articleController.Create(c, b)

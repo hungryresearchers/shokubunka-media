@@ -6,17 +6,18 @@ import (
 	"api/usecase"
 
 	"github.com/gin-gonic/gin/binding"
+	"github.com/jinzhu/gorm"
 )
 
 type ArticleController struct {
 	Usecase usecase.ArticleUsecase
 }
 
-func NewArticleController(sqlHandler database.SqlHandler) *ArticleController {
+func NewArticleController(sqlhandler *gorm.DB) *ArticleController {
 	return &ArticleController{
 		Usecase: usecase.ArticleUsecase{
 			ArticleRepository: &database.ArticleRepository{
-				SqlHandler: sqlHandler,
+				DB: sqlhandler,
 			},
 		},
 	}

@@ -3,7 +3,6 @@ package controllers
 import (
 	"api/interfaces/controllers/serializer"
 	"api/service"
-	"api/usecase"
 	"bytes"
 	"context"
 	"io"
@@ -14,13 +13,10 @@ import (
 )
 
 type ImageController struct {
-	Usecase usecase.ImageUsecase
 }
 
 func NewImageController() *ImageController {
-	return &ImageController{
-		Usecase: usecase.ImageUsecase{},
-	}
+	return &ImageController{}
 }
 
 func (controller *ImageController) Upload(c Context, blob *blob.Bucket, ctx context.Context) {
