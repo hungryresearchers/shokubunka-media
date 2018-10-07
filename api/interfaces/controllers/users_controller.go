@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"api/domain"
+	"api/interfaces/controllers/serializer"
 	"api/interfaces/database"
 	"api/service"
 	"api/usecase"
@@ -49,5 +50,5 @@ func (controller *UserController) SignIn(c Context, b binding.Binding) {
 		return
 	}
 	service.SessionSet(c, u.ID)
-	c.JSON(200, u)
+	c.JSON(200, serializer.UserResponse{FirstName: u.FirstName, LastName: u.LastName, NickName: u.NickName, CreatedAt: u.CreatedAt})
 }
