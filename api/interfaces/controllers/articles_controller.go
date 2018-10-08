@@ -57,3 +57,15 @@ func (controller *ArticleController) Index(c Context) {
 	}
 	c.JSON(200, serializer.AllArticle{Articles: articles})
 }
+
+func (controller *ArticleController) Destroy(c Context) {
+	user := CurrentUser(c)
+	id, _ := strconv.Atoi(c.Param("id"))
+	article := domain.Article{ID: id}
+	if err := controller.Usecase.Destroy(&article, &user); err != nil {
+		c.JSON(400, NewError(err))
+		return
+	}
+	c.AbortWithStatus(204)
+	return
+}

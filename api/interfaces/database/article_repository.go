@@ -27,3 +27,9 @@ func (repo *ArticleRepository) Find(article *domain.Article) error {
 	err := repo.DB.Where(article).First(article).Error
 	return err
 }
+
+// Destroy #Destroy article
+func (repo *ArticleRepository) Destroy(article *domain.Article) error {
+	err := repo.DB.Delete(article).Error
+	return err
+}

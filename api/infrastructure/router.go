@@ -93,5 +93,8 @@ func init() {
 	articles.GET("/:id", func(c *gin.Context) {
 		articleController.Show(c)
 	})
+	articles.DELETE("/:id", func(c *gin.Context) {
+		articleController.Destroy(c)
+	})
 	Router = router
 }
