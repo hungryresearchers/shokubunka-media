@@ -1,19 +1,31 @@
 version: "3"
 
 services:
-  # front:
-  #   tty: true
-  #   container_name: shokubunka_front
-  #   build:
-  #     context: ./front
-  #   entrypoint: /app/startserver.sh
-  #   volumes:
-  #     - ./front:/app:consistent
-  #   depends_on:
-  #     - api
-  #   ports:
-  #     - 8080:8080
-  #   env_file: development.env
+  front:
+    tty: true
+    container_name: shokubunka_front
+    build:
+      context: ./front
+    entrypoint: /app/startserver.sh
+    volumes:
+      - ./front:/app:consistent
+      - frontend_build:/app/build
+    ports:
+      - 8080:8080
+    env_file: development.env
+    networks:
+      - my-app-default
+
+  nginx:
+    tty: true
+    build:
+      context: ./nginx
+    volumes:
+      - frontend_build:/var/www/build
+    ports:
+      - 80:80
+    networks:
+      - my-app-default
 
   api:
     tty: true
@@ -30,6 +42,8 @@ services:
       - ./api:/go/src/api:consistent
     env_file:
       - development.env
+    networks:
+      - my-app-default
 
   redis:
     restart: always
@@ -39,6 +53,8 @@ services:
     #   - /my/own/datadir:/data
     ports:
       - "6379:6379"
+    networks:
+      - my-app-default
 
   db:
     restart: always
@@ -49,3 +65,12 @@ services:
     #   - /my/own/datadir:/var/lib/mysql
     env_file:
       - development.env
+    networks:
+      - my-app-default
+
+volumes:
+  frontend_build:
+
+networks:
+  my-app-default:
+    external: true
